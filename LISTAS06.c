@@ -85,10 +85,10 @@ NODO *sacar_primero(LISTA *cola)
 void listar_cola(LISTA *cola)
 {
     int n = 0;
-    NODO *1;
+    NODO *l;
 
-    for(1 = cola->primero; 1 != NIL; 1= 1->proximo){
-        printf("%-15s: %d   %4d %6.2f\n",1->pd->descr, n, 1->pf->cod, 1->pd->pre);
+    for(l = cola->primero; l != NIL; l= l->proximo){
+        printf("%-15s: %d   %4d %6.2f\n",l->pd->descr, n, l->pd->cod, l->pd->pre);
         n++;
     }
     return;
@@ -96,11 +96,11 @@ void listar_cola(LISTA *cola)
 
 void ord_lista_pre(LISTA *cola){
     NODO *j, *i;
-    DATO *temp;
+    DATOS *temp;
     for(j= cola->primero; j != NIL; j = j ->proximo)
         for(i=j->proximo; i != NIL; i = i->proximo)
             if(j->pd->pre > i->pd->pre){
-                temp = j-pd;
+                temp = j->pd;
                 j->pd = i->pd;
                 i->pd = temp;
             }
@@ -110,11 +110,11 @@ void ord_lista_pre(LISTA *cola){
 void ord_list_cod(LISTA *cola)
 {
     NODO *j, *i;
-    DATO *temp;
+    DATOS *temp;
     for(j= cola->primero; j != NIL; j = j ->proximo)
         for(i = j->proximo; i != NIL; i = i->proximo)
             if(j->pd->cod > i->pd->cod){
-                temp = j-pd;
+                temp = j->pd;
                 j->pd = i->pd;
                 i->pd = temp;
             }
@@ -124,18 +124,18 @@ void ord_list_cod(LISTA *cola)
 void ord_list_descr(LISTA *cola)
 {
     NODO *j, *i;
-    DATO *temp;
+    DATOS *temp;
     for(j= cola->primero; j != NIL; j = j ->proximo)
         for(i = j->proximo; i != NIL; i = i->proximo)
             if(strcmp(j->pd->descr, i->pd->descr) > 0){
-                temp = j-pd;
+                temp = j->pd;
                 j->pd = i->pd;
                 i->pd = temp;
             }
     return;
 }
 
-void insertar_precio(LISTA *cola, int co, float, pr, char *sn)
+void insertar_precio(LISTA *cola, int co, float pr, char *sn)
 {
     NODO *j, *jant;
     NODO *aux;
@@ -146,7 +146,7 @@ void insertar_precio(LISTA *cola, int co, float, pr, char *sn)
         exit(1);
     }
 
-    if ((aux->pd = (DATOS *)malloc(strlen(DATOS))) == NULL){
+    if ((aux->pd = (DATOS *)malloc(sizeof(DATOS))) == NULL){
         printf("Sin memoria para datos");
         exit(1);
     }
@@ -183,14 +183,14 @@ void insertar_precio(LISTA *cola, int co, float, pr, char *sn)
 void main(void){
     int codigo[] = {102, 103, 133, 124, 152, 127, 100, 0};
     float precio[] = {10.3, 12.4, 4.02, 5.7, 2.3, 6.2, 12.5, 0};
-    char *descrip[] = {"Mecha", "Calibre", "Guias", "M01", "G7", "Sep", "Motro", "*"}
+    char *descrip[] = {"Mecha", "Calibre", "Guias", "M01", "G7", "Sep", "Motro", "*"};
 
     int i;
     NODO *ptr;
     NODO *sacar_primero();
     LISTA *cola1;
 
-    clrscr();
+    //clrscr();
 
     if((cola1 = (LISTA *)malloc(sizeof(LISTA))) == NULL){
         printf("Sin memoria para Header");
