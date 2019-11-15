@@ -119,13 +119,15 @@ NODO *sacar_primero(LISTA *cola)
     */
     NODO *msg;  // Inicio puntero msg como una estructura NODO
     // Se chequea que el atributo *primero de la "cola" no sea cero. Si es cero, retorna la funcion
-    if(cola->primero == NIL)
-        return(NIL);
-    //Se accede al atributo *primero de la lista "cola" y se le asigna a *msg
-    msg = cola->primero;
-    //  Se accede al atributo *proximo de msg (que deberia ser cero) y asi "sacar el primero" 
-    cola->primero = msg->proximo;
+    // Se accede al atributo *primero de la lista "cola" y se le asigna a *msg
+    // Se accede al atributo *proximo de msg (que deberia ser cero) y asi "sacar el primero" 
     // Se chequea que el atributo *ultimo de la lista no quede con "basura". Si tiene algo, lo limpia
+    if(cola->primero == NIL)
+    return(NIL);
+
+    msg = cola->primero;
+    cola->primero = msg->proximo;
+
     if(cola->ultimo == msg)
         cola->ultimo = NIL;
 
@@ -239,13 +241,17 @@ void insertar_precio(LISTA *cola, int co, float pr, char *sn)
     */
     j = cola->primero;
 
-    if(j == NIL){
+    if(j == NIL){ /* lista vacia */
         cola->primero = cola->ultimo = aux;
         aux->proximo = NIL;
-    }else if(pr < j->pd->pre){
+    }else if(pr < j->pd->pre){ /* Insertar al principio */
         aux->proximo = j;
         cola->primero = aux;
-    }else{
+    }else if( pr > cola->ultimo->pd->pre ){ /* Insertar al final */
+        cola->ultimo->proximo = aux;
+        aux->proximo = NIL;
+        cola->ultimo = aux;
+    }else{  /* Insertar al medio */
         while(j->pd->pre < pr){
             jant = j;
             j = j->proximo;
